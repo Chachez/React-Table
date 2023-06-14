@@ -21,6 +21,7 @@ const TableWrapper = styled(Table)(({ theme }) => ({
   marginTop: theme.spacing(3),
   marginBottom: theme.spacing(3),
   padding: theme.spacing(2),
+  cursor: "pointer",
 }));
 
 const TableComponent = ({
@@ -38,7 +39,7 @@ const TableComponent = ({
 }) => {
   return (
     <RootComponent>
-      <TableWrapper {...other} sx={{ cursor: "pointer" }}>
+      <TableWrapper {...other}>
         <TableHead>
           <TableRow>
             {columns?.map((column) => (
