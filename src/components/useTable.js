@@ -35,6 +35,7 @@ const TableComponent = ({
   rowsPerPageOptions,
   columns,
   count,
+  cellAlign,
   ...other
 }) => {
   return (
@@ -50,6 +51,7 @@ const TableComponent = ({
                   top: 57,
                   minWidth: column.minWidth,
                   fontWeight: "bold", // Add a custom style for the table headers
+                  align: cellAlign,
                 }}
               >
                 {column.label}
