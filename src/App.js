@@ -58,6 +58,12 @@ const App = () => {
     } catch (error) {}
   };
 
+  const getSingleCountry = async (row) => {
+    try {
+      const res = await api.get(`/name/${row.name.official}`);
+    } catch (error) {}
+  };
+
   // Fetch data when the component mounts
   useEffect(() => {
     retrieveData();
@@ -121,7 +127,7 @@ const App = () => {
         )
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, idx) => (
-          <TableRow key={idx}>
+          <TableRow key={idx} onClick={() => getSingleCountry(row)}>
             <TableCell>{page * rowsPerPage + idx + 1}</TableCell>
             <TableCell>{row.name?.common || ""}</TableCell>
             <TableCell>
