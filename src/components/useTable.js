@@ -5,61 +5,50 @@ import {
   TableRow,
   TableCell,
   TablePagination,
-  //   TableSortLabel,
   TableBody,
 } from "@mui/material";
 import { styled } from "@mui/system";
 
 const RootComponent = styled("div")(({ theme }) => ({
+  // Customize the styling of the root component
   maxWidth: "100%",
-  maxHeight: "100%",
   margin: "0 auto",
-  padding: theme.spacing(3, 3, 6, 3),
-  overflow: "auto",
+  padding: theme.spacing(2),
 }));
 
 const TableWrapper = styled(Table)(({ theme }) => ({
-  marginTop: theme.spacing(5),
+  // Customize the styling of the table wrapper
+  marginTop: theme.spacing(3),
   marginBottom: theme.spacing(3),
-  padding: theme.spacing(3),
-  [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-    marginTop: theme.spacing(6),
-    marginBottom: theme.spacing(6),
-    padding: theme.spacing(3),
-  },
-  borderRadius: "10px",
-  boxShadow: "0 10px 30px 0 rgba(172, 168, 168, 0.43)",
+  padding: theme.spacing(2),
+  borderRadius: "5px",
+  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
 }));
-
-const columns = [
-  { id: "date", label: "Date", minWidth: 100 },
-  { id: "account", label: "Account", minWidth: 100 },
-  { id: "debit", label: "Debit", minWidth: 100 },
-  { id: "credit", label: "Credit", minWidth: 100 },
-  { id: "credit", label: "Description", minWidth: 100 },
-  { id: "Amount", label: "Amount", minWidth: 100 },
-];
-
-const users = [{ id: 1, name: "James Mwangi" }];
 
 const TableComponent = ({
   onPageChange,
   onRowsPerPageChange,
   page,
   rowsPerPage,
+  data,
+  children,
+  rowsPerPageOptions,
+  columns,
+  ...other
 }) => {
   return (
     <RootComponent>
-      <TableWrapper>
+      <TableWrapper {...other}>
         <TableHead>
           <TableRow>
-            {columns.map((column) => (
+            {columns?.map((column) => (
               <TableCell
                 key={column.id}
                 align={column.align}
                 style={{
                   top: 57,
                   minWidth: column.minWidth,
+                  fontWeight: "bold", // Add a custom style for the table headers
                 }}
               >
                 {column.label}
@@ -67,19 +56,12 @@ const TableComponent = ({
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {users.map((data, idx) => (
-            <TableRow>
-              <TableCell key={idx}>{data.name}</TableCell>
-              <TableCell key={idx}>{data.name}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableBody>{children}</TableBody>
       </TableWrapper>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 20] || rowsPerPageOptions} // Customize the rows per page options
         component="div"
-        count={users.length}
+        count={data}
         page={page}
         rowsPerPage={rowsPerPage}
         onPageChange={onPageChange}
