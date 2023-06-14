@@ -38,7 +38,7 @@ const TableComponent = ({
 }) => {
   return (
     <RootComponent>
-      <TableWrapper {...other}>
+      <TableWrapper {...other} sx={{ cursor: "pointer" }}>
         <TableHead>
           <TableRow>
             {columns?.map((column) => (
