@@ -34,6 +34,7 @@ const TableComponent = ({
   children,
   rowsPerPageOptions,
   columns,
+  count,
   ...other
 }) => {
   return (
@@ -61,7 +62,7 @@ const TableComponent = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 20] || rowsPerPageOptions} // Customize the rows per page options
         component="div"
-        count={data}
+        count={count}
         page={page}
         rowsPerPage={rowsPerPage}
         onPageChange={onPageChange}
