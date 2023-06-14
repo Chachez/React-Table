@@ -21,8 +21,6 @@ const TableWrapper = styled(Table)(({ theme }) => ({
   marginTop: theme.spacing(3),
   marginBottom: theme.spacing(3),
   padding: theme.spacing(2),
-  borderRadius: "5px",
-  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
 }));
 
 const TableComponent = ({
