@@ -1,5 +1,5 @@
 // Importing necessary dependencies and components
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { TableRow, TableCell, Paper, Grid } from "@mui/material";
 import { styled } from "@mui/system";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -68,10 +68,6 @@ const MainTable = () => {
   //   dispatch(getCountries());
   //   setValues(reduxState.countries.countries);
   // };
-  const retrieveData = useCallback(async () => {
-    dispatch(getCountries());
-    setValues(reduxState.countries.countries);
-  }, [dispatch, reduxState.countries.countries]);
 
   const getSingleCountry = async (row) => {
     setOpen(true);
@@ -81,10 +77,15 @@ const MainTable = () => {
     setOpen(false);
   };
 
-  // Fetch data when the component mounts
   useEffect(() => {
+    // Retrieve data from the API
+    const retrieveData = async () => {
+      dispatch(getCountries());
+      setValues(reduxState.countries.countries);
+    };
+
     retrieveData();
-  }, [retrieveData]);
+  }, [dispatch, reduxState.countries.countries]);
 
   // Filter the data based on the search query
   useEffect(() => {
