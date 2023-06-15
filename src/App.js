@@ -3,7 +3,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
 
 import MainTable from "./MainTable";
-import CountryDetails from "./components/CountryDetails";
+import CountryDetails from "./CountryDetails";
 
 const App = () => {
   return (
