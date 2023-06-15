@@ -46,7 +46,7 @@ const HoverTableRow = styled(TableRow)(({ theme }) => ({
 
 const MainTable = () => {
   // State variables for holding data and controlling pagination/search
-  const [values, setValues] = useState(null);
+  const [values, setValues] = useState([]);
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -63,12 +63,6 @@ const MainTable = () => {
     setPage(0);
   };
 
-  // Retrieve data from the API
-  // const retrieveData = async () => {
-  //   dispatch(getCountries());
-  //   setValues(reduxState.countries.countries);
-  // };
-
   const getSingleCountry = async (row) => {
     setOpen(true);
     const name = row.name.official;
@@ -78,14 +72,14 @@ const MainTable = () => {
   };
 
   useEffect(() => {
-    // Retrieve data from the API
-    const retrieveData = async () => {
-      dispatch(getCountries());
-      setValues(reduxState.countries.countries);
-    };
+    setOpen(true);
+    dispatch(getCountries());
+    setOpen(false);
+  }, [dispatch]);
 
-    retrieveData();
-  }, [dispatch, reduxState.countries.countries]);
+  useEffect(() => {
+    setValues(reduxState.countries.countries);
+  }, [reduxState.countries.countries]);
 
   // Filter the data based on the search query
   useEffect(() => {
@@ -136,6 +130,7 @@ const MainTable = () => {
   };
 
   // Render table rows based on the search query and pagination
+
   const renderTableRows = () => {
     const data = searchQuery ? filteredValues : values;
     if (data) {
@@ -177,8 +172,8 @@ const MainTable = () => {
     <PaperComponent>
       <Controls.Loader open={open} />
       <Grid container spacing={2}>
-        <Grid item sm={12} md={6} lg={4} />
-        <Grid item sm={12} md={6} lg={4}>
+        <Grid item sm={12} md={12} lg={4} />
+        <Grid item sm={12} md={12} lg={4}>
           {/* Title */}
           <Controls.MuiTypography
             title="Countries of The World"
@@ -187,7 +182,7 @@ const MainTable = () => {
             sx={{ fontWeight: "bold" }}
           />
         </Grid>
-        <Grid item sm={12} md={6} lg={4}>
+        <Grid item sm={12} md={12} lg={4}>
           {/* Search input */}
           <Controls.MuiTextField
             label="Search"
