@@ -1,5 +1,5 @@
 // Importing necessary dependencies and components
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { TableRow, TableCell, Paper, Grid } from "@mui/material";
 import { styled } from "@mui/system";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -48,6 +48,7 @@ const MainTable = () => {
   // State variables for holding data and controlling pagination/search
   const [values, setValues] = useState(null);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredValues, setFilteredValues] = useState([]);
@@ -63,22 +64,27 @@ const MainTable = () => {
   };
 
   // Retrieve data from the API
-  const retrieveData = async () => {
+  // const retrieveData = async () => {
+  //   dispatch(getCountries());
+  //   setValues(reduxState.countries.countries);
+  // };
+  const retrieveData = useCallback(async () => {
     dispatch(getCountries());
     setValues(reduxState.countries.countries);
-  };
+  }, [dispatch, reduxState.countries.countries]);
 
   const getSingleCountry = async (row) => {
+    setOpen(true);
     const name = row.name.official;
-    dispatch(getCountry(name));
-
-    !reduxState.countries.loading && navigate(`/country/${name}`);
+    await dispatch(getCountry(name));
+    await navigate(`/country/${name}`);
+    setOpen(false);
   };
 
   // Fetch data when the component mounts
   useEffect(() => {
     retrieveData();
-  }, []);
+  }, [retrieveData]);
 
   // Filter the data based on the search query
   useEffect(() => {
@@ -168,6 +174,7 @@ const MainTable = () => {
 
   return (
     <PaperComponent>
+      <Controls.Loader open={open} />
       <Grid container spacing={2}>
         <Grid item sm={12} md={6} lg={4} />
         <Grid item sm={12} md={6} lg={4}>
