@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import { TableRow, TableCell, Paper, Grid } from "@mui/material";
 import { styled } from "@mui/system";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import "./App.css";
 import TableComponent from "./components/useTable";
-import api from "./utils/axios";
 import { formatNumber } from "./utils/numberFormatter";
 import Controls from "./components/controls/controls";
+import { getCountries, getCountry } from "./redux/actions/countryActions";
 
 // Define columns for the table
 const columns = [
@@ -49,6 +51,9 @@ const MainTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredValues, setFilteredValues] = useState([]);
+  const reduxState = useSelector((state) => state, shallowEqual);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Event handler for search input
   const handleSearch = (event) => {
@@ -59,16 +64,15 @@ const MainTable = () => {
 
   // Retrieve data from the API
   const retrieveData = async () => {
-    try {
-      const res = await api.get("/all");
-      setValues(res.data);
-    } catch (error) {}
+    dispatch(getCountries());
+    setValues(reduxState.countries.countries);
   };
 
   const getSingleCountry = async (row) => {
-    try {
-      const res = await api.get(`/name/${row.name.official}`);
-    } catch (error) {}
+    const name = row.name.official;
+    dispatch(getCountry(name));
+
+    !reduxState.countries.loading && navigate(`/country/${name}`);
   };
 
   // Fetch data when the component mounts
@@ -129,7 +133,7 @@ const MainTable = () => {
     const data = searchQuery ? filteredValues : values;
     if (data) {
       return data
-        .sort((a, b) =>
+        ?.sort((a, b) =>
           (a.name?.common || "").localeCompare(b.name?.common || "")
         )
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
