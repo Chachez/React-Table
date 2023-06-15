@@ -46,8 +46,6 @@ const CountryDetails = () => {
         })`
       : "Not Declared";
 
-  console.log(country);
-
   return (
     <PaperComponent>
       <Tooltip title="Back Home" sx={{ marginBottom: "2rem" }}>
@@ -71,21 +69,23 @@ const CountryDetails = () => {
             />
           </CardContent>
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <CardMedia
-            component="img"
-            height="300"
-            image={country.coatOfArms.svg}
-            alt="Coat of Arms"
-          />
-          <CardContent>
-            <Controls.MuiTypography
-              title={`${country.name?.common} Coat of Arms`}
-              sx={{ fontWeight: "bold" }}
-              variant="h5"
+        {country.coatOfArms.svg && (
+          <Grid item xs={12} md={6} lg={4}>
+            <CardMedia
+              component="img"
+              height="300"
+              image={country.coatOfArms.svg}
+              alt="Coat of Arms"
             />
-          </CardContent>
-        </Grid>
+            <CardContent>
+              <Controls.MuiTypography
+                title={`${country.name?.common} Coat of Arms`}
+                sx={{ fontWeight: "bold" }}
+                variant="h5"
+              />
+            </CardContent>
+          </Grid>
+        )}
         <Grid
           item
           xs={12}
